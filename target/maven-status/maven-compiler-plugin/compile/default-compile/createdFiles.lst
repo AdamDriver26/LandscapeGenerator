@@ -1,0 +1,7 @@
+ad\landscapegenerator\dao\ConfigDaoFileImpl.class
+ad\landscapegenerator\dto\Block.class
+ad\landscapegenerator\dto\Config.class
+ad\landscapegenerator\dto\MapSpace.class
+ad\landscapegenerator\dao\BlockDao.class
+ad\landscapegenerator\dao\ConfigDao.class
+ad\landscapegenerator\App.class

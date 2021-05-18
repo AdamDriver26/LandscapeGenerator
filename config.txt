@@ -1,0 +1,5 @@
+Block size: 250
+Map block dimensions: 8,6
+Sea level: 50
+Map style: PLAINS
+File name: consolemap
