@@ -35,7 +35,7 @@ public class ServiceLayerTest {
     
     @BeforeEach
     public void setUp() {
-        config = new Config(25, new int[] {3,4}, 50, MapStyle.PLAINS, "service_test");
+        config = new Config(25, new int[] {3,4}, 4, 50, MapStyle.PLAINS, "service_test");
         map = new MapSpace(config);
         
         configDao = new ConfigDaoFileImpl();

@@ -36,10 +36,7 @@ public class MapSpaceDaoFileImpl implements MapSpaceDao {
                 
                 // Assigns the colour to be drawn using the value of the point scaled to [0,255).
                 int val = (int) Math.floor(255.0*map.getPoints()[x][y]);
-                if (val > 255) {
-                    val = 255;
-                }
-                if (val < 0) {
+                if (val <= config.getSeaLevel()) {
                     val = 0;
                 }
                 img.setRGB(x, y, new Color(val,val,val).getRGB());

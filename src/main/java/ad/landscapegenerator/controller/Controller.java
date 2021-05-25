@@ -52,15 +52,14 @@ public class Controller {
     
     private void processGenerateLandscape() throws Exception {
         // view - banner
-        MapSpace map = new MapSpace(configDao.getConfig());
+        
+        // Creates the layers with decreasing block size and proportionally increasing map shape dimesnsions
+        // Merges the layers to create the landscape map space (here blocks and corners are null)
+        MapSpace landscape = service.mergeLayers(service.createLayers());
         // view - map creation announcement, give seed for recreation?
-        service.generateMapBlocks(map);
-        // view - process announcement?
-        service.generatePerlinNoise(map);
-        // view - process announcement?
-        service.knitBlocks(map);
-        // view - process announcement?
-        mapSpaceDao.drawMap(map);
+        
+        mapSpaceDao.drawMap(landscape);
+        
         // view - success banner
     }
     

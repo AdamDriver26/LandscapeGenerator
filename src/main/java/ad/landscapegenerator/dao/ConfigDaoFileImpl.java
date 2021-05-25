@@ -18,6 +18,7 @@ public class ConfigDaoFileImpl implements ConfigDao {
     private static final String[] DESCRIPTORS = {
         "Block size",
         "Map block dimensions",
+        "Layer count",
         "Sea level",
         "Map style",
         "File name"
@@ -53,6 +54,8 @@ public class ConfigDaoFileImpl implements ConfigDao {
         String[] mapShapeStrings = scanner.nextLine().split(DELIMITER)[1].split(",");
         int[] mapShape = {Integer.parseInt(mapShapeStrings[0]), Integer.parseInt(mapShapeStrings[1])};
         
+        int layerCount = Integer.parseInt(scanner.nextLine().split(DELIMITER)[1]);
+        
         int seaLevel = Integer.parseInt(scanner.nextLine().split(DELIMITER)[1]);
         
         MapStyle style = MapStyle.valueOf(scanner.nextLine().split(DELIMITER)[1]);
@@ -62,7 +65,7 @@ public class ConfigDaoFileImpl implements ConfigDao {
         // Close the scanner.
         scanner.close();
         
-        config = new Config(blockSize, mapShape, seaLevel, style, name);
+        config = new Config(blockSize, mapShape, layerCount, seaLevel, style, name);
     }
 
     private void writeConfig(Config config) throws Exception {
@@ -85,16 +88,20 @@ public class ConfigDaoFileImpl implements ConfigDao {
         out.println(DESCRIPTORS[1] + DELIMITER + config.getMapShape()[0] + "," + config.getMapShape()[1]); 
         out.flush();
         
+        // Writes and flushes the layer count.
+        out.println(DESCRIPTORS[2] + DELIMITER + config.getLayerCount()); 
+        out.flush();
+        
         // Writes and flushes the map sea level.
-        out.println(DESCRIPTORS[2] + DELIMITER + config.getSeaLevel()); 
+        out.println(DESCRIPTORS[3] + DELIMITER + config.getSeaLevel()); 
         out.flush();
         
         // Writes and flushes the map style.
-        out.println(DESCRIPTORS[3] + DELIMITER + config.getStyle().toString()); 
+        out.println(DESCRIPTORS[4] + DELIMITER + config.getStyle().toString()); 
         out.flush();
         
         // Writes and flushes the file name.
-        out.println(DESCRIPTORS[4] + DELIMITER + config.getName()); 
+        out.println(DESCRIPTORS[5] + DELIMITER + config.getName()); 
         out.flush();
         
         out.close();

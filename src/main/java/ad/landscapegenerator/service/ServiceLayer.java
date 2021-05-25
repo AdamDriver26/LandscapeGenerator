@@ -6,6 +6,8 @@ import ad.landscapegenerator.dto.Block;
 import ad.landscapegenerator.dto.Config;
 import ad.landscapegenerator.dto.Coord;
 import ad.landscapegenerator.dto.MapSpace;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceLayer {
     
@@ -131,6 +133,64 @@ public class ServiceLayer {
             }
         }
     }
+    
+    public List<MapSpace> createLayers() throws Exception {
+        Config config = configDao.getConfig();  // throws exception here
+        
+        // n the total number of layers, used as a factor in calculating the blockSize of subsequent layers
+        int n = config.getLayerCount();
+        List<MapSpace> layers = new ArrayList<>();
+        
+        for (int k = 0; k < n; k++) {
+            int scale = (int) Math.pow(2, k);
+            int layerBlockSize = config.getBlockSize()/scale;
+            int[] layerMapShape = new int[] {config.getMapShape()[0]*scale, config.getMapShape()[1]*scale};
+            
+            Config scaledConfig = new Config(layerBlockSize, layerMapShape, config.getLayerCount(), config.getSeaLevel(), config.getStyle(), config.getName());
+            
+            // Creates layer map object
+            MapSpace layer = new MapSpace(scaledConfig);
+            
+            // Temporarily updates the config file
+            configDao.setConfig(scaledConfig);
+            
+            // Generates the perlin noise for the layer using the scaled config paramaters
+            generateMapBlocks(layer);
+            generatePerlinNoise(layer);
+            knitBlocks(layer);
+            
+            layers.add(layer);            
+        }
+        configDao.setConfig(config);
+        return layers;
+    }
+    
+    public MapSpace mergeLayers(List<MapSpace> layers) throws Exception {
+        Config config = configDao.getConfig();  // throws exception here
+        
+        // n the total number of layers, used as a factor in calculating the impact of each layer
+        int n = layers.size();
+        MapSpace mergedMap = new MapSpace(config);
+        double[][] mergedPoints = mergedMap.getPoints();
+        
+        for (int y = 0; y < config.getBlockSize()*config.getMapShape()[1]; y++) {
+            for (int x = 0; x < config.getBlockSize()*config.getMapShape()[0]; x++) {
+                
+                // k describes the layer
+                for (int k = 0; k < n; k++) {
+                    double[][] layerPoints = layers.get(k).getPoints();
+                    // Uses normalised weighting calculated with 2(n-k) / n(n-1)
+                    mergedPoints[x][y] += 2.0*(n-k)*layerPoints[x][y]/(n*(n+1));
+                }
+                
+                mergedPoints[x][y] = easeQuintic(mergedPoints[x][y]);
+            }
+        }
+        
+        
+        return mergedMap;
+    }
+    
     
     // vvv Mathematical helper functions vvv
     

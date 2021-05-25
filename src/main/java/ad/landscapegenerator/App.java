@@ -6,13 +6,16 @@ import ad.landscapegenerator.dao.ConfigDao;
 import ad.landscapegenerator.dao.ConfigDaoFileImpl;
 import ad.landscapegenerator.dao.MapSpaceDao;
 import ad.landscapegenerator.dao.MapSpaceDaoFileImpl;
+import ad.landscapegenerator.dto.Config;
+import ad.landscapegenerator.dto.MapSpace;
 import ad.landscapegenerator.service.ServiceLayer;
 import ad.landscapegenerator.view.UserIO;
 import ad.landscapegenerator.view.UserIOConsoleImpl;
+import java.util.List;
 
 public class App {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         
         
         ConfigDao configDao = new ConfigDaoFileImpl();
@@ -27,10 +30,17 @@ public class App {
 //        int testSeaLevel = 50;
 //        MapStyle testStyle = MapStyle.MOUNTAIN;
 //        String testName = "test_name";
+//        Config config = configDao.getConfig();
+//        List<MapSpace> layers  = service.createLayers();
+//        for (int i = 0; i < configDao.getConfig().getLayerCount(); i++) {
+//            String layerName = "layer" + i;
+//            Config layerConfig = new Config(config.getBlockSize(), config.getMapShape(), config.getLayerCount(), config.getSeaLevel(), config.getStyle(), layerName);
+//            configDao.setConfig(layerConfig);
+//            mapSpaceDao.drawMap(layers.get(i));
+//        }
 
         controller.run();
 
-        
     }
     
 }

@@ -1,5 +1,6 @@
-Block size: 250
-Map block dimensions: 8,6
-Sea level: 50
+Block size: 640
+Map block dimensions: 3,2
+Layer count: 6
+Sea level: 118
 Map style: PLAINS
-File name: consolemap
+File name: big_noise_sea
