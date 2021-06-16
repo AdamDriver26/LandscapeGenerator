@@ -134,7 +134,7 @@ public class ServiceLayer {
         }
     }
     
-    public List<MapSpace> createLayers() throws Exception {
+    public List<MapSpace> createNoiseLayers() throws Exception {
         Config config = configDao.getConfig();  // throws exception here
         
         // n the total number of layers, used as a factor in calculating the blockSize of subsequent layers
@@ -146,7 +146,7 @@ public class ServiceLayer {
             int layerBlockSize = config.getBlockSize()/scale;
             int[] layerMapShape = new int[] {config.getMapShape()[0]*scale, config.getMapShape()[1]*scale};
             
-            Config scaledConfig = new Config(layerBlockSize, layerMapShape, config.getLayerCount(), config.getSeaLevel(), config.getStyle(), config.getName());
+            Config scaledConfig = new Config(layerBlockSize, layerMapShape, config.getLayerCount(), config.getSeaLevel(), config.getStyle(), config.getTheme(), config.getName());
             
             // Creates layer map object
             MapSpace layer = new MapSpace(scaledConfig);

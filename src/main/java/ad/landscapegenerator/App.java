@@ -31,7 +31,7 @@ public class App {
 //        MapStyle testStyle = MapStyle.MOUNTAIN;
 //        String testName = "test_name";
 //        Config config = configDao.getConfig();
-//        List<MapSpace> layers  = service.createLayers();
+//        List<MapSpace> layers  = service.createNoiseLayers();
 //        for (int i = 0; i < configDao.getConfig().getLayerCount(); i++) {
 //            String layerName = "layer" + i;
 //            Config layerConfig = new Config(config.getBlockSize(), config.getMapShape(), config.getLayerCount(), config.getSeaLevel(), config.getStyle(), layerName);

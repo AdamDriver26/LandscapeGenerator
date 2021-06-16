@@ -1,6 +1,7 @@
 
 package ad.landscapegenerator.dao;
 
+import ad.landscapegenerator.dto.ColourTheme;
 import ad.landscapegenerator.dto.Config;
 import ad.landscapegenerator.dto.MapStyle;
 import java.io.BufferedReader;
@@ -21,6 +22,7 @@ public class ConfigDaoFileImpl implements ConfigDao {
         "Layer count",
         "Sea level",
         "Map style",
+        "Colour Theme",
         "File name"
     };
     
@@ -60,12 +62,14 @@ public class ConfigDaoFileImpl implements ConfigDao {
         
         MapStyle style = MapStyle.valueOf(scanner.nextLine().split(DELIMITER)[1]);
         
+        ColourTheme theme = ColourTheme.valueOf(scanner.nextLine().split(DELIMITER)[1]);
+        
         String name = scanner.nextLine().split(DELIMITER)[1];
         
         // Close the scanner.
         scanner.close();
         
-        config = new Config(blockSize, mapShape, layerCount, seaLevel, style, name);
+        config = new Config(blockSize, mapShape, layerCount, seaLevel, style, theme, name);
     }
 
     private void writeConfig(Config config) throws Exception {
@@ -100,8 +104,12 @@ public class ConfigDaoFileImpl implements ConfigDao {
         out.println(DESCRIPTORS[4] + DELIMITER + config.getStyle().toString()); 
         out.flush();
         
+        // Writes and flushes the colour theme.
+        out.println(DESCRIPTORS[5] + DELIMITER + config.getTheme().toString()); 
+        out.flush();
+        
         // Writes and flushes the file name.
-        out.println(DESCRIPTORS[5] + DELIMITER + config.getName()); 
+        out.println(DESCRIPTORS[6] + DELIMITER + config.getName()); 
         out.flush();
         
         out.close();

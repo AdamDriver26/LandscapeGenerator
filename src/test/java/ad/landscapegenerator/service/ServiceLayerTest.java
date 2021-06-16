@@ -4,6 +4,7 @@ package ad.landscapegenerator.service;
 import ad.landscapegenerator.dao.ConfigDao;
 import ad.landscapegenerator.dao.ConfigDaoFileImpl;
 import ad.landscapegenerator.dto.Block;
+import ad.landscapegenerator.dto.ColourTheme;
 import ad.landscapegenerator.dto.Config;
 import ad.landscapegenerator.dto.MapSpace;
 import ad.landscapegenerator.dto.MapStyle;
@@ -35,7 +36,7 @@ public class ServiceLayerTest {
     
     @BeforeEach
     public void setUp() {
-        config = new Config(25, new int[] {3,4}, 4, 50, MapStyle.PLAINS, "service_test");
+        config = new Config(25, new int[] {3,4}, 4, 50, MapStyle.PLAINS, ColourTheme.COLD, "service_test");
         map = new MapSpace(config);
         
         configDao = new ConfigDaoFileImpl();

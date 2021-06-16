@@ -8,15 +8,17 @@ public class Config {
     private int layerCount;
     private int seaLevel;
     private MapStyle style;
+    private ColourTheme theme;
     private String name;
     
-    public Config(int blockSize, int[] mapShape, int layerCount, int seaLevel, MapStyle style, String name) {
+    public Config(int blockSize, int[] mapShape, int layerCount, int seaLevel, MapStyle style, ColourTheme theme, String name) {
         
         this.blockSize = blockSize;
         this.mapShape = mapShape;
         this.layerCount = layerCount;
         this.seaLevel = seaLevel;
         this.style = style;
+        this.theme = theme;
         this.name = name;
         
     }
@@ -61,6 +63,14 @@ public class Config {
         this.style = style;
     }
 
+    public ColourTheme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(ColourTheme theme) {
+        this.theme = theme;
+    }
+
     public String getName() {
         return name;
     }
@@ -73,7 +83,5 @@ public class Config {
     public String toString() {
         return "Config{" + "blockSize=" + blockSize + ", mapShape=" + mapShape + ", layerCount=" + layerCount + ", seaLevel=" + seaLevel + ", style=" + style + ", name=" + name + '}';
     }
-    
-    
     
 }

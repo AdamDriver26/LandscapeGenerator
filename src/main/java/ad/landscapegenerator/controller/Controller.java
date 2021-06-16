@@ -55,7 +55,16 @@ public class Controller {
         
         // Creates the layers with decreasing block size and proportionally increasing map shape dimesnsions
         // Merges the layers to create the landscape map space (here blocks and corners are null)
-        MapSpace landscape = service.mergeLayers(service.createLayers());
+        
+        // view - "Generating the *MapStyle.description* 
+        
+        // view - "Generating noise..."
+        // service - noiseLayers...
+        // view - "Done"
+        
+        
+        
+        MapSpace landscape = service.mergeLayers(service.createNoiseLayers());
         // view - map creation announcement, give seed for recreation?
         
         mapSpaceDao.drawMap(landscape);

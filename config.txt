@@ -1,6 +1,7 @@
-Block size: 640
-Map block dimensions: 3,2
-Layer count: 6
-Sea level: 118
+Block size: 128
+Map block dimensions: 5,3
+Layer count: 5
+Sea level: 140
 Map style: PLAINS
-File name: big_noise_sea
+Colour Theme: GREYSCALE
+File name: greyscale1
