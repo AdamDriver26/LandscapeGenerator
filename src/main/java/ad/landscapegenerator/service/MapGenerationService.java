@@ -9,11 +9,11 @@ import ad.landscapegenerator.dto.MapSpace;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceLayer {
+public class MapGenerationService {
     
     ConfigDao configDao;
     
-    public ServiceLayer(ConfigDao configDao) {
+    public MapGenerationService(ConfigDao configDao) {
         this.configDao = configDao;
     }
     
@@ -55,7 +55,7 @@ public class ServiceLayer {
         
         // Generates a random unit vector for each corner point needed.
         for (int n=0; n<cornerCount; n++) {
-            unassignedVectors[n] = generateRandUnitVector();
+            unassignedVectors[n] = ServiceUtility.generateRandUnitVector();
             //unassignedVectors[n] = generateClockVector(n);
         }
         
@@ -114,22 +114,22 @@ public class ServiceLayer {
                 double[] relDistSW = new double[] {xScaled/maxDist, (yScaled - 1.0)/maxDist};
                 
                 // Calculates the impact, defined to be the dot product of the unit vector with the displacement, for each corner of the block
-                double impactNW = dotProduct(block.getCornerVectors()[0], relDistNW);
-                double impactNE = dotProduct(block.getCornerVectors()[1], relDistNE);
-                double impactSE = dotProduct(block.getCornerVectors()[2], relDistSE);
-                double impactSW = dotProduct(block.getCornerVectors()[3], relDistSW);
+                double impactNW = ServiceUtility.dotProduct(block.getCornerVectors()[0], relDistNW);
+                double impactNE = ServiceUtility.dotProduct(block.getCornerVectors()[1], relDistNE);
+                double impactSE = ServiceUtility.dotProduct(block.getCornerVectors()[2], relDistSE);
+                double impactSW = ServiceUtility.dotProduct(block.getCornerVectors()[3], relDistSW);
                 
                 // Shifts values towards integral points.
-                double xEased = easeQuintic(xScaled);
-                double yEased = easeQuintic(yScaled);
+                double xEased = ServiceUtility.easeQuintic(xScaled);
+                double yEased = ServiceUtility.easeQuintic(yScaled);
                 
                 // Takes average of impact from each corner using linear interpolation first horizontally, then vertically
-                double northAverage = interpolate(impactNW, impactNE, xEased);   // S_x
-                double southAverage = interpolate(impactSW, impactSE, xEased);   // S_y
-                double combinedAverage = interpolate(northAverage, southAverage, yEased);
+                double northAverage = ServiceUtility.interpolate(impactNW, impactNE, xEased);   // S_x
+                double southAverage = ServiceUtility.interpolate(impactSW, impactSE, xEased);   // S_y
+                double combinedAverage = ServiceUtility.interpolate(northAverage, southAverage, yEased);
                 
                 // Assigns value after scaling [-1,1)->[0,1) then easing to exaggerate heights.
-                block.getPoints()[x][y] = easeQuintic((combinedAverage + 1.0)/2.0);
+                block.getPoints()[x][y] = ServiceUtility.easeQuintic((combinedAverage + 1.0)/2.0);
             }
         }
     }
@@ -192,90 +192,11 @@ public class ServiceLayer {
                     mergedPoints[x][y] += 2.0*(n-k)*layerPoints[x][y]/(n*(n+1));
                 }
                 
-                mergedPoints[x][y] = easeQuintic(mergedPoints[x][y]);
+                mergedPoints[x][y] = ServiceUtility.easeQuintic(mergedPoints[x][y]);
             }
         }
         
         
         return mergedMap;
-    }
-    
-    
-    // vvv Mathematical helper functions vvv
-    
-    /**
-     * Generates a random vector in [-1,1)x[-1,1) then normalises it to lie on
-     * the unit circle.
-     * @return a 2-dimensional unit vector in a random direction.
-     */
-    private static double[] generateRandUnitVector() {
-        double x = 2.0*Math.random() - 1.0;
-        double y = 2.0*Math.random() - 1.0;
-        double length = Math.sqrt(x*x + y*y);
-        return new double[] {x/length, y/length};
-    }
-    
-    private static double[] generateClockVector(int hour) {
-        double x = -Math.cos(Math.PI*(3*hour+6)/12.0);
-        double y = Math.sin(Math.PI*(3*hour+6)/12.0);
-        return new double[] {x, y};
-    }
-    
-    /**
-     * Computes the dot product of two vectors.
-     * @param u the first double[], representing a 2-dimensional vector.
-     * @param v the second double[], representing a 2-dimensional vector.
-     * @return the dot product of vectors u and v.
-     */
-    private static double dotProduct(double[] u, double[] v) {
-        return u[0]*v[0] + u[1]*v[1];      
-    }
-    
-    /**
-     * Ease curve using the function 3x^2 - 2x^3 (gradual). Domain is
-     * constricted to the interval [0,1].
-     * @param t the value to parse into the ease curve.
-     * @return the value of the ease curve at point t.
-     */
-    private static double easeCubic(double t) {
-        if (t <= 0.0) {
-            return 0.0;
-        }
-        else if (t >= 1.0) {
-            return 1.0;
-        }
-        return 3.0*Math.pow(t, 2.0) - 2.0*Math.pow(t, 3.0);
-    }
-    
-    /**
-     * Ease curve using the function 6x^5 - 15x^4 + 10x^3 (steep). Domain is 
-     * constricted to the interval [0,1]. 
-     * @param t the value to parse into the ease curve.
-     * @return the value of the ease curve at point t.
-     */
-    private static double easeQuintic(double t) {
-        if (t <= 0.0) {
-            return 0.0;
-        }
-        else if (t >= 1.0) {
-            return 1.0;
-        }
-        return 6.0*Math.pow(t, 5.0) - 15.0*Math.pow(t, 4.0) + 10.0*Math.pow(t, 3.0);
-    }
-    
-//    private static double disruptCos(double t, double d) {
-//        return -(Math.cos(Math.PI*t/d)-1.0)/2.0;
-//    }
-    
-    /**
-     * Linearly interpolates distance t between the starting point a and
-     * terminating point b.
-     * @param a the starting point.
-     * @param b the terminating point.
-     * @param t the proportion of distance (in range [0,1]) between a and b.
-     * @return  
-     */
-    static double interpolate(double a, double b, double t) {
-        return t*(b - a) + a;
     }
 }

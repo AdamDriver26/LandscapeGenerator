@@ -20,7 +20,7 @@ public class ServiceLayerTest {
     Config config;
     MapSpace map;
     ConfigDao configDao;
-    ServiceLayer service;
+    MapGenerationService service;
     
     public ServiceLayerTest() {
     }
@@ -39,7 +39,7 @@ public class ServiceLayerTest {
         map = new MapSpace(config);
         
         configDao = new ConfigDaoFileImpl();
-        service = new ServiceLayer(configDao);
+        service = new MapGenerationService(configDao);
     }
     
     @AfterEach

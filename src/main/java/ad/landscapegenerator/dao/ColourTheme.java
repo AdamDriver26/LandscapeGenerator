@@ -18,10 +18,10 @@ public enum ColourTheme {
             new Color(87, 139, 160),
             new Color(0, 46, 75),
             new Color(0, 0, 0),
-            new Color(206, 217, 205),
-            new Color(125, 146, 109),
-            new Color(80, 109, 68),
-            new Color(49, 78, 54)
+            new Color(202, 215, 214),
+            new Color(137, 152, 128),
+            new Color(95, 133, 81),
+            new Color(57, 90, 62)
     ),
 //    COLD(
 //            new Color(87, 139, 160),

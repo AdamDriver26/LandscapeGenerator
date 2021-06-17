@@ -8,7 +8,7 @@ import ad.landscapegenerator.dao.MapSpaceDao;
 import ad.landscapegenerator.dao.MapSpaceDaoFileImpl;
 import ad.landscapegenerator.dto.Config;
 import ad.landscapegenerator.dto.MapSpace;
-import ad.landscapegenerator.service.ServiceLayer;
+import ad.landscapegenerator.service.MapGenerationService;
 import ad.landscapegenerator.view.UserIO;
 import ad.landscapegenerator.view.UserIOConsoleImpl;
 import java.util.List;
@@ -20,7 +20,7 @@ public class App {
         
         ConfigDao configDao = new ConfigDaoFileImpl();
         MapSpaceDao mapSpaceDao = new MapSpaceDaoFileImpl(configDao);
-        ServiceLayer service = new ServiceLayer(configDao);
+        MapGenerationService service = new MapGenerationService(configDao);
         UserIO io = new UserIOConsoleImpl();
         Controller controller = new Controller(configDao, mapSpaceDao, service, io);
         

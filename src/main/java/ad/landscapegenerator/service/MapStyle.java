@@ -22,10 +22,10 @@ public enum MapStyle {
             
             for (int y = 0; y < yMax; y++) {
                 for (int x = 0; x < xMax; x++) {
-                    double topEdge = ServiceLayer.interpolate(northWestCorner, northEastCorner, (double) x/xMax);
-                    double bottomEdge = ServiceLayer.interpolate(southWestCorner, southEastCorner, (double) x/xMax);
+                    double topEdge = ServiceUtility.interpolate(northWestCorner, northEastCorner, (double) x/xMax);
+                    double bottomEdge = ServiceUtility.interpolate(southWestCorner, southEastCorner, (double) x/xMax);
                     
-                    baseLayer.getPoints()[x][y] = ServiceLayer.interpolate(topEdge, bottomEdge, (double) y/yMax);
+                    baseLayer.getPoints()[x][y] = ServiceUtility.interpolate(topEdge, bottomEdge, (double) y/yMax);
                 }
             }
             
@@ -53,7 +53,7 @@ public enum MapStyle {
         @Override
         public MapSpace createBaseLayer(Config config) throws Exception {
             // *** Fix implementation for inversion of control ***
-            ServiceLayer service = new ServiceLayer(new ConfigDaoFileImpl());
+            MapGenerationService service = new MapGenerationService(new ConfigDaoFileImpl());
             MapSpace baseLayer = new MapSpace(config);
             
             service.generateMapBlocks(baseLayer);

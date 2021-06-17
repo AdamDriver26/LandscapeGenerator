@@ -4,7 +4,7 @@ package ad.landscapegenerator.controller;
 import ad.landscapegenerator.dao.ConfigDao;
 import ad.landscapegenerator.dao.MapSpaceDao;
 import ad.landscapegenerator.dto.MapSpace;
-import ad.landscapegenerator.service.ServiceLayer;
+import ad.landscapegenerator.service.MapGenerationService;
 import ad.landscapegenerator.view.UserIO;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,13 +14,13 @@ public class Controller {
 
     ConfigDao configDao;
     MapSpaceDao mapSpaceDao;
-    ServiceLayer service;
+    MapGenerationService mapService;
     UserIO io;
     
-    public Controller(ConfigDao configDao, MapSpaceDao mapSpaceDao, ServiceLayer service, UserIO io) {
+    public Controller(ConfigDao configDao, MapSpaceDao mapSpaceDao, MapGenerationService service, UserIO io) {
         this.configDao = configDao;
         this.mapSpaceDao = mapSpaceDao;
-        this.service = service;        
+        this.mapService = service;        
         this.io = io;
     }
     
@@ -61,12 +61,12 @@ public class Controller {
         
         // view - "Generating the *MapStyle.description*
         io.print("Generating base layer...");
-        MapSpace baseLayer = service.createBaseLayer();
+        MapSpace baseLayer = mapService.createBaseLayer();
         io.print("Done\n");
         
         // view - "Generating noise..."
         io.print("Generating noise layers...");
-        List<MapSpace> noiseLayers = service.createNoiseLayers();
+        List<MapSpace> noiseLayers = mapService.createNoiseLayers();
         io.print("Done\n");
         
         // view - "Merging layers..."
@@ -74,7 +74,7 @@ public class Controller {
         // Concats baseLayer with the noiseLayers list
         List<MapSpace> layers = Stream.concat(Stream.of(baseLayer), noiseLayers.stream())
                                       .collect(Collectors.toList());
-        MapSpace landscape = service.mergeLayers(layers);
+        MapSpace landscape = mapService.mergeLayers(layers);
         io.print("Done\n");
         
         // view - map creation announcement, give seed for recreation?
