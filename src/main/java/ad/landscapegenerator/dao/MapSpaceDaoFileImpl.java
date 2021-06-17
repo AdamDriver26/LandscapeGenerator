@@ -1,7 +1,6 @@
 
 package ad.landscapegenerator.dao;
 
-import ad.landscapegenerator.dto.ColourTheme;
 import ad.landscapegenerator.dto.Config;
 import ad.landscapegenerator.dto.MapSpace;
 import java.awt.Color;
@@ -12,29 +11,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class MapSpaceDaoFileImpl implements MapSpaceDao {
-    
-    private final Color LIGHTEST_BLUE = new Color(200,225,255);
-    private final Color DARKEST_BLUE = new Color(75,110,160);
-    
-    private final Color COASTAL_BLUE = new Color(41,64,93);
-    
-//    private final Color HIGHEST_GROUND = new Color(179,129,25);
-//    private final Color MIDDLE_GROUND = new Color(240,234,169);
-//    private final Color LOWEST_GROUND = new Color(85,138,79);
-    
-//    private final Color HIGHEST_GROUND = new Color(77,59,58);
-//    private final Color MIDDLE_GROUND = new Color(130,151,78);
-//    private final Color LOWEST_GROUND = new Color(61,93,41);
-    
-    private final Color HIGHEST_GROUND = new Color(77,59,58);
-    private final Color UPPER_MIDDLE_GROUND = new Color(135,121,104);
-    private final Color LOWER_MIDDLE_GROUND = new Color(130,151,78);
-    private final Color LOWEST_GROUND = new Color(61,93,41);
-    
-    private final Color LIGHTEST_GREEN = new Color(132,194,120);
-    private final Color DARKEST_GREEN = new Color(85,140,50);
-    private final Color LIGHTEST_BROWN = new Color(200,225,255);
-    private final Color DARKEST_BROWN = new Color(75,110,160);
     
     private ConfigDao configDao;
     

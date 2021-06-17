@@ -1,9 +1,8 @@
 
 package ad.landscapegenerator.dao;
 
-import ad.landscapegenerator.dto.ColourTheme;
 import ad.landscapegenerator.dto.Config;
-import ad.landscapegenerator.dto.MapStyle;
+import ad.landscapegenerator.service.MapStyle;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -101,7 +100,7 @@ public class ConfigDaoFileImpl implements ConfigDao {
         out.flush();
         
         // Writes and flushes the map style.
-        out.println(DESCRIPTORS[4] + DELIMITER + config.getStyle().toString()); 
+        out.println(DESCRIPTORS[4] + DELIMITER + config.getMapStyle().toString()); 
         out.flush();
         
         // Writes and flushes the colour theme.

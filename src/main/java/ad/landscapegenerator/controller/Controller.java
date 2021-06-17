@@ -6,6 +6,9 @@ import ad.landscapegenerator.dao.MapSpaceDao;
 import ad.landscapegenerator.dto.MapSpace;
 import ad.landscapegenerator.service.ServiceLayer;
 import ad.landscapegenerator.view.UserIO;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Controller {
 
@@ -56,15 +59,24 @@ public class Controller {
         // Creates the layers with decreasing block size and proportionally increasing map shape dimesnsions
         // Merges the layers to create the landscape map space (here blocks and corners are null)
         
-        // view - "Generating the *MapStyle.description* 
+        // view - "Generating the *MapStyle.description*
+        io.print("Generating base layer...");
+        MapSpace baseLayer = service.createBaseLayer();
+        io.print("Done\n");
         
         // view - "Generating noise..."
-        // service - noiseLayers...
-        // view - "Done"
+        io.print("Generating noise layers...");
+        List<MapSpace> noiseLayers = service.createNoiseLayers();
+        io.print("Done\n");
         
+        // view - "Merging layers..."
+        io.print("Merging layers...");
+        // Concats baseLayer with the noiseLayers list
+        List<MapSpace> layers = Stream.concat(Stream.of(baseLayer), noiseLayers.stream())
+                                      .collect(Collectors.toList());
+        MapSpace landscape = service.mergeLayers(layers);
+        io.print("Done\n");
         
-        
-        MapSpace landscape = service.mergeLayers(service.createNoiseLayers());
         // view - map creation announcement, give seed for recreation?
         
         mapSpaceDao.drawMap(landscape);

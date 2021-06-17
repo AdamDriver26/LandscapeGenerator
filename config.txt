@@ -1,7 +1,7 @@
 Block size: 128
 Map block dimensions: 5,3
-Layer count: 5
-Sea level: 140
-Map style: PLAINS
-Colour Theme: GREYSCALE
-File name: greyscale1
+Layer count: 4
+Sea level: 153
+Map style: ARCHIPELAGO
+Colour Theme: COLD
+File name: archipelagoTestEnums4Cold

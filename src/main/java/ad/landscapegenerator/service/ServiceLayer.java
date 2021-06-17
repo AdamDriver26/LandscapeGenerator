@@ -134,19 +134,28 @@ public class ServiceLayer {
         }
     }
     
+    public MapSpace createBaseLayer() throws Exception {
+        Config config = configDao.getConfig();  // throws exception here
+        
+        return config.getMapStyle().createBaseLayer(config);
+    }
+    
     public List<MapSpace> createNoiseLayers() throws Exception {
         Config config = configDao.getConfig();  // throws exception here
         
-        // n the total number of layers, used as a factor in calculating the blockSize of subsequent layers
+        // n the number of layers defined in the config, with n-1 noiseLayers of
+        // noise. Used as a factor in calculating the blockSize of subsequent 
+        // noiseLayers.
         int n = config.getLayerCount();
-        List<MapSpace> layers = new ArrayList<>();
+        List<MapSpace> noiseLayers = new ArrayList<>();
         
-        for (int k = 0; k < n; k++) {
+        // Iterates from k=1 to allow the 0th layer be defined by the map style.
+        for (int k = 1; k < n; k++) {
             int scale = (int) Math.pow(2, k);
             int layerBlockSize = config.getBlockSize()/scale;
             int[] layerMapShape = new int[] {config.getMapShape()[0]*scale, config.getMapShape()[1]*scale};
             
-            Config scaledConfig = new Config(layerBlockSize, layerMapShape, config.getLayerCount(), config.getSeaLevel(), config.getStyle(), config.getTheme(), config.getName());
+            Config scaledConfig = new Config(layerBlockSize, layerMapShape, config.getLayerCount(), config.getSeaLevel(), config.getMapStyle(), config.getTheme(), config.getName());
             
             // Creates layer map object
             MapSpace layer = new MapSpace(scaledConfig);
@@ -159,16 +168,16 @@ public class ServiceLayer {
             generatePerlinNoise(layer);
             knitBlocks(layer);
             
-            layers.add(layer);            
+            noiseLayers.add(layer);            
         }
         configDao.setConfig(config);
-        return layers;
+        return noiseLayers;
     }
     
     public MapSpace mergeLayers(List<MapSpace> layers) throws Exception {
         Config config = configDao.getConfig();  // throws exception here
         
-        // n the total number of layers, used as a factor in calculating the impact of each layer
+        // n the total number of noiseLayers, used as a factor in calculating the impact of each layer
         int n = layers.size();
         MapSpace mergedMap = new MapSpace(config);
         double[][] mergedPoints = mergedMap.getPoints();
@@ -254,9 +263,9 @@ public class ServiceLayer {
         return 6.0*Math.pow(t, 5.0) - 15.0*Math.pow(t, 4.0) + 10.0*Math.pow(t, 3.0);
     }
     
-    private static double disruptCos(double t, double d) {
-        return -(Math.cos(Math.PI*t/d)-1.0)/2.0;
-    }
+//    private static double disruptCos(double t, double d) {
+//        return -(Math.cos(Math.PI*t/d)-1.0)/2.0;
+//    }
     
     /**
      * Linearly interpolates distance t between the starting point a and
@@ -266,7 +275,7 @@ public class ServiceLayer {
      * @param t the proportion of distance (in range [0,1]) between a and b.
      * @return  
      */
-    private static double interpolate(double a, double b, double t) {
+    static double interpolate(double a, double b, double t) {
         return t*(b - a) + a;
     }
 }

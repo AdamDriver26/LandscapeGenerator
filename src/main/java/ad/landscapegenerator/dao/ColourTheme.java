@@ -1,4 +1,4 @@
-package ad.landscapegenerator.dto;
+package ad.landscapegenerator.dao;
 
 import java.awt.Color;
 
@@ -18,11 +18,20 @@ public enum ColourTheme {
             new Color(87, 139, 160),
             new Color(0, 46, 75),
             new Color(0, 0, 0),
-            new Color(198, 214, 222),
-            new Color(149, 158, 148),
-            new Color(110, 156, 94),
-            new Color(64, 101, 70)
+            new Color(206, 217, 205),
+            new Color(125, 146, 109),
+            new Color(80, 109, 68),
+            new Color(49, 78, 54)
     ),
+//    COLD(
+//            new Color(87, 139, 160),
+//            new Color(0, 46, 75),
+//            new Color(0, 0, 0),
+//            new Color(198, 214, 222),
+//            new Color(149, 158, 148),
+//            new Color(110, 156, 94),
+//            new Color(64, 101, 70)
+//    ),
     GREYSCALE(
             new Color(90, 90, 90),
             new Color(60, 60, 60),

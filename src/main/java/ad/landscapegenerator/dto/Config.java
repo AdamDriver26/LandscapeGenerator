@@ -1,6 +1,9 @@
 
 package ad.landscapegenerator.dto;
 
+import ad.landscapegenerator.dao.ColourTheme;
+import ad.landscapegenerator.service.MapStyle;
+
 public class Config {
     
     private int blockSize;
@@ -55,11 +58,11 @@ public class Config {
         this.seaLevel = seaLevel;
     }
 
-    public MapStyle getStyle() {
+    public MapStyle getMapStyle() {
         return style;
     }
 
-    public void setStyle(MapStyle style) {
+    public void setMapStyle(MapStyle style) {
         this.style = style;
     }
 
